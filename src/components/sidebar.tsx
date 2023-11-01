@@ -3,13 +3,23 @@
 import {cn} from "@/lib/utils"
 import {usePathname, useRouter} from "next/navigation"
 import {routes} from "@/constants"
+import {useProModal} from "@/hooks/use-pro-modal"
 
-export const Sidebar = () => {
+interface SidebarProps {
+    isPro: boolean
+}
+
+export const Sidebar = ({
+    isPro
+}: SidebarProps) => {
     const pathname = usePathname()
     const router = useRouter()
+    const proModal = useProModal()
 
-    const onNavigate = (url: string, isPro: boolean) => {
-        // TODO: check if pro
+    const onNavigate = (url: string, routeIsPro: boolean) => {
+        if(routeIsPro && !isPro) {
+            return proModal.onOpen()
+        }
 
         return router.push(url);
     }

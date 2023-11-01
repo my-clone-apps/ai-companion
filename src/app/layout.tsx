@@ -7,6 +7,7 @@ import {ThemeProvider} from "@/components/theme-provider"
 import "./globals.css"
 import {cn} from "@/lib/utils"
 import {Toaster} from "@/components/ui/toaster"
+import {ProModal} from "@/components/pro-modal"
 
 const inter = Inter({subsets: ["latin"]})
 
@@ -37,6 +38,7 @@ const MainLayout = ({
                         enableSystem
                         disableTransitionOnChange
                     >
+                        <ProModal />
                         {children}
                         <Toaster />
                     </ThemeProvider>

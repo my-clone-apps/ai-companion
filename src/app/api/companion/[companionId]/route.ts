@@ -1,6 +1,7 @@
 import {NextResponse} from "next/server"
 import {auth, currentUser} from "@clerk/nextjs"
 import prismadb from "@/lib/prismadb"
+import {checkSubscription} from "@/lib/subscription"
 
 interface Params {
     params: {
@@ -37,11 +38,16 @@ export async function PATCH(req: Request, { params }: Params) {
             return new NextResponse("unauthorized", { status: 401 })
         }
 
-        //TODO: check subscription
+        const isPro = await checkSubscription()
+
+        if(!isPro) {
+            return new NextResponse("not_pro", { status: 403 })
+        }
 
         const companion = await prismadb.companion.update({
             where: {
-                id: params.companionId
+                id: params.companionId,
+                userId: user.id
             },
             data: {
                 categoryId,
@@ -73,8 +79,6 @@ export async function DELETE(req: Request, { params }: Params) {
         if(!userId) {
             return new NextResponse("unauthorized", { status: 401 })
         }
-
-        //TODO: check subscription
 
         const companion = await prismadb.companion.delete({
             where: {

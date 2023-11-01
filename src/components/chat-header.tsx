@@ -75,7 +75,7 @@ export const ChatHeader = ({
                         </div>
                     </div>
                     <p className="text-xs text-muted-freground">
-                        Created by @{companion.userName}
+                        Created by {companion.userName}
                     </p>
                 </div>
             </div>
